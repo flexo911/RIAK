@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "73755006-65ed-4d87-9e8c-a33aefb37c1d",
+		"name": "riak",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16851922"
+	},
+	"item": [
+		{
+			"name": "list bucket",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8098/buckets?buckets=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8098",
+					"path": [
+						"buckets"
+					],
+					"query": [
+						{
+							"key": "buckets",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add plain text",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\"test data\"",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8098/riak/test_db/example_key",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8098",
+					"path": [
+						"riak",
+						"test_db",
+						"example_key"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add json",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"John Doe\",\"age\":30}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8098/riak/test_db_json/example_json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8098",
+					"path": [
+						"riak",
+						"test_db_json",
+						"example_json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add link",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Link",
+						"value": "</riak/test_db/example_key>; riaktag=\"TAG\"",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"John Doe\",\"age\":30}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8098/riak/test_db_json/example_json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8098",
+					"path": [
+						"riak",
+						"test_db_json",
+						"example_json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8098/riak/test_db_json/example_json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8098",
+					"path": [
+						"riak",
+						"test_db_json",
+						"example_json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MapReduce",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"inputs\":\"test_db_json\",\n        \"query\":[\n            {\"map\":{\"language\":\"javascript\",\"source\":\"function(value, keydata, arg){ return [1]; }\"}},\n            {\"reduce\":{\"language\":\"javascript\",\"source\":\"function(values, arg){ return [values.length]; }\"}}\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8098/mapred",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8098",
+					"path": [
+						"mapred"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
